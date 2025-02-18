@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+    stages {
+        stage ('checkout/clone') {
+            steps {
+            git 'https://github.com/PradeepReddyGunna/Java.war-app.git'
+            
+            }
+        }
+        stage ('build') {
+            steps{
+                sh ''' mvn compile '''
+            }
+        }
+        stage ('to scheduling into artifact') {
+            steps{
+                sh '''mvn clean package '''
+            }
+        }
+        stage ('creating a custom docker image') {
+            steps {
+                sh ''' docker build -t tomcatcustom .'''
+                sh ''' docker images '''
+                sh ''' docker tag tomcatcustom gunnapradeepreddy/tomcatcustom:1'''
+            }
+        }
+        stage ('push into docker') {
+            steps {
+                script{
+                    withDockerRegistry(credentialsId: 'docker-hub') {
+                        sh ''' docker push gunnapradeepreddy/tomcatcustom:1 '''
+                    }
+                }
+            }
+        }
+        stage('deploy into container') {
+            steps{
+                sh ''' docker run --name custom-con -d -p 9999:8080 gunnapradeepreddy/tomcatcustom:1 '''
+                
+            }
+        }
+    }
+}
