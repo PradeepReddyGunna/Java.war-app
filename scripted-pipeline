@@ -1,0 +1,18 @@
+node {
+    stage ('checkout/clone') {
+        git 'https://github.com/PradeepReddyGunna/Java.war-app.git'
+    }
+    stage ('build'){
+        sh ''' mvn compile '''
+    }
+    stage ('to scheduling into artifact'){
+        sh ''' mvn clean package '''
+    }
+    stage ('creating a custom docker image') {
+        sh ''' docker build -t customtomcat . '''
+        sh ''' docker images '''
+    }
+    stage ('deploy into container') {
+        sh ''' docker run --name con -d -p 9999:8080 customtomcat '''
+    }
+}
