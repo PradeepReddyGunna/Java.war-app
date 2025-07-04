@@ -1,5 +1,8 @@
-FROM tomcat
-LABEL maintainer address "koteswarao"
-COPY **/*.war /usr/local/tomcat/webapps/
-CMD ["catalina.sh","run"]
+FROM tomcat:9-jdk17-temurin
+
+COPY target/*.war /usr/local/tomcat/webapps/app.war
+
 EXPOSE 8080
+
+CMD ["catalina.sh", "run"]
+
