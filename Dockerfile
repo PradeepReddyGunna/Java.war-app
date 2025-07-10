@@ -1,8 +1,4 @@
-FROM tomcat:9-jdk17-temurin
-
-COPY target/*.war /usr/local/tomcat/webapps/app.war
-
+FROM tomcat:9.0
+COPY target/JavaWebApp.war /usr/local/tomcat/webapps/JavaWebApp.war
 EXPOSE 8080
-
-CMD ["catalina.sh", "run"]
 
