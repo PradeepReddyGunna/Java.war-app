@@ -1,4 +1,5 @@
-FROM tomcat:9.0
-COPY target/JavaWebApp.war /usr/local/tomcat/webapps/JavaWebApp.war
-EXPOSE 8081
-
+FROM tomcat
+LABEL maintainer address "koteswarao"
+COPY **/*.war /usr/local/tomcat/webapps/
+CMD ["catalina.sh","run"]
+EXPOSE 8080
