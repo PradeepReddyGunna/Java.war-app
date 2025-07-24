@@ -1,9 +1,11 @@
+# deployment.yaml file
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: java-war-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: java-war
